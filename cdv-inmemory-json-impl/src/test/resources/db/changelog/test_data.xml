@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+    <changeSet id="1.0" author="tnurdinov">
+        <sql>
+            insert into cdv.validation (code, lang, attr, expr, msg)
+            values ('TEST1', 'SPEL', 'store.id', '#jsonPath(#data, ''$.store.id'')>''''', 'Поле "store.id" обязательно для заполнения');
+
+        <!-- must ignore-->
+            insert into cdv.validation (code, lang, attr, expr, msg)
+            values ('TEST2', 'GROOVY', 'store.code', 'return true', 'Поле "store.code" обязательно для заполнения');
+
+            <!-- must ignore -->
+            insert into cdv.validation (code, lang, attr, expr, msg, disabled)
+            values ('TEST1', 'SPEL', 'store.name', '#jsonPath(#data, ''$.store.name'')>''''', 'Поле "store.name" обязательно для заполнения', true);
+
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>

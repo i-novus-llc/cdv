@@ -1,0 +1,55 @@
+package ru.i_novus.components.cdv.inmemory.json.impl;
+
+import liquibase.integration.spring.SpringLiquibase;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+import ru.i_novus.components.cdv.core.ValidationServiceImpl;
+import ru.i_novus.components.cdv.core.api.ValidationRepository;
+import ru.i_novus.components.cdv.core.api.ValidationService;
+import ru.i_novus.components.cdv.core.dao.JdbcTemplateValidationDao;
+import ru.i_novus.components.cdv.core.dao.ValidationDao;
+
+import javax.sql.DataSource;
+
+@Configuration
+@EnableTransactionManagement
+public class TestConfig {
+    @Bean
+    public DataSource dataSource() {
+        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+        dataSource.setDriverClassName("org.h2.Driver");
+        dataSource.setUrl("jdbc:h2:mem:myDb;DB_CLOSE_DELAY=-1");
+        return dataSource;
+    }
+
+    @Bean
+    public ValidationService<String, ValidationResult> validationService() {
+       return new ValidationServiceImpl<String, String, ValidationResult>(new JsonParser(), validationRepository());
+    }
+
+    @Bean
+    public ValidationRepository<String, ValidationResult> validationRepository() {
+        return new ValidationRepositoryImpl(validationDao());
+    }
+
+    @Bean
+    public ValidationDao validationDao() {
+        return new JdbcTemplateValidationDao(jdbcTemplate());
+    }
+
+    @Bean
+    public JdbcTemplate jdbcTemplate(){
+        return new JdbcTemplate(dataSource());
+    }
+
+    @Bean
+    public SpringLiquibase liquibase() {
+        SpringLiquibase liquibase = new SpringLiquibase();
+        liquibase.setChangeLog("classpath:liquibase-changeLog.xml");
+        liquibase.setDataSource(dataSource());
+        return liquibase;
+    }
+}

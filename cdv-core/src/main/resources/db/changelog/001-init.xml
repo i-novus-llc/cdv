@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+    <changeSet id="init_1.0" author="tnurdinov">
+        <sql>
+            CREATE SCHEMA IF NOT EXISTS cdv;
+
+            CREATE TABLE cdv.validation (
+                id serial NOT NULL,
+                code varchar NOT NULL,
+                lang varchar NOT NULL,
+                attr varchar,
+                expr text,
+                msg text,
+                disabled boolean DEFAULT FALSE,
+                CONSTRAINT cdv_pk PRIMARY KEY(id)
+            );
+
+            COMMENT ON TABLE cdv.validation IS 'Настраиваемые проверки';
+            COMMENT ON COLUMN cdv.validation.id IS 'Идентификатор проверки';
+            COMMENT ON COLUMN cdv.validation.code IS 'Код проверки';
+            COMMENT ON COLUMN cdv.validation.lang IS 'Язык проверки';
+            COMMENT ON COLUMN cdv.validation.attr IS 'Атрибут к которому относится проверка';
+            COMMENT ON COLUMN cdv.validation.expr IS 'Выражение проверки';
+            COMMENT ON COLUMN cdv.validation.msg IS 'Сообщение, описание';
+
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>
