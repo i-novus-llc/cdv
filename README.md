@@ -8,7 +8,7 @@ Configurable data validation library
 cdv.validation На данный момент существуют реализации:
 
 1. Валидация произвольного json'a, где проверки описываются с помощью spel(Spring Expression Language)-выражений.
-   Подробнее [тут](../cdv/cdv-inmemory-json-impl/README.md)
+   Подробнее [тут](cdv-inmemory-json-impl/README.md)
 
 ## Описание модулей
 
