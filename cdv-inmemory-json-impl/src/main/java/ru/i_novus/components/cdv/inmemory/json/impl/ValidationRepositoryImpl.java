@@ -8,7 +8,6 @@ import ru.i_novus.components.cdv.core.api.ValidationRepository;
 import ru.i_novus.components.cdv.core.dao.ValidationDao;
 import ru.i_novus.components.cdv.core.dao.ValidationEntity;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,8 +15,15 @@ public class ValidationRepositoryImpl implements ValidationRepository<String, Va
 
     private ValidationDao validationDao;
 
+    private EvaluationContextInitializer evaluationContextInitializer;
+
     public ValidationRepositoryImpl(ValidationDao validationDao) {
+        this(validationDao, null);
+    }
+
+    public ValidationRepositoryImpl(ValidationDao validationDao, EvaluationContextInitializer evaluationContextInitializer) {
         this.validationDao = validationDao;
+        this.evaluationContextInitializer = evaluationContextInitializer;
     }
 
     @Override
@@ -25,17 +31,13 @@ public class ValidationRepositoryImpl implements ValidationRepository<String, Va
         StandardEvaluationContext context = new StandardEvaluationContext();
         context.setVariable("data", json);
         context.registerFunction("jsonPath", BeanUtils.resolveSignature("evaluate", JsonPathUtils.class));
+        if(evaluationContextInitializer != null) {
+            evaluationContextInitializer.init(context);
+        }
         return validationDao.findValidationEntityList().stream()
                 .filter(validationEntity -> "SPEL".equals(validationEntity.getLanguage()))
                 .map(entity -> createValidation(context, entity))
                 .collect(Collectors.toList());
-       /* Validation validation = new SpelValidation(
-                "#jsonPath(#foo, 'foo.bar[?(@.doo>6)]')",
-                "insuredPersonDetails.id",
-                "001K.00.0250",
-                "description", context);
-        result.add(validation);
-        return result;*/
     }
 
     private SpelValidation createValidation(StandardEvaluationContext context, ValidationEntity validationEntity) {

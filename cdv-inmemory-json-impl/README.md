@@ -6,3 +6,4 @@
    ru.i_novus.components.cdv.inmemory.json.impl.JsonPathUtils.evaluate, поэтому используйте следующий
    синтаксис `#jsonPath(#data, '<json path>')`, где `jsonPath` - функция
    `ru.i_novus.components.cdv.inmemory.json.impl.JsonPathUtils.evaluate`, `data` - проверяемый json
+3. Для кастомной инициализации контекста spel надо реализовать EvaluationContextInitializer и передать его в конструкторе ValidationRepositoryImpl    
