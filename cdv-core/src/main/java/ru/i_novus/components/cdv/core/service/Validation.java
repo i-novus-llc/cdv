@@ -1,4 +1,4 @@
-package ru.i_novus.components.cdv.core.api.model;
+package ru.i_novus.components.cdv.core.service;
 
 /**
  * Валидация.

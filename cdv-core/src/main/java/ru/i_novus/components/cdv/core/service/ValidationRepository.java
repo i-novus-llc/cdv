@@ -1,6 +1,4 @@
-package ru.i_novus.components.cdv.core.api.service;
-
-import ru.i_novus.components.cdv.core.api.model.Validation;
+package ru.i_novus.components.cdv.core.service;
 
 import java.util.List;
 

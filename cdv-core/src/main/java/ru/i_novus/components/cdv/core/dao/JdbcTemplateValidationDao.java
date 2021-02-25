@@ -1,4 +1,4 @@
-package ru.i_novus.components.cdv.core.impl.dao;
+package ru.i_novus.components.cdv.core.dao;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 
