@@ -1,4 +1,4 @@
-package ru.i_novus.components.cdv.core.api;
+package ru.i_novus.components.cdv.core.api.service;
 
 import java.util.List;
 
@@ -12,6 +12,4 @@ import java.util.List;
 public interface ValidationService<I, R> {
 
     List<R> validate(I input);
-
-    R validate(I input, String language, String expression);
 }

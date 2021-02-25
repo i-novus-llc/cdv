@@ -1,12 +1,15 @@
-package ru.i_novus.components.cdv.inmemory.json.impl;
+package ru.i_novus.components.cdv.inmemory.json.impl.service;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.expression.EvaluationContext;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
-import ru.i_novus.components.cdv.core.api.Validation;
-import ru.i_novus.components.cdv.core.api.ValidationRepository;
-import ru.i_novus.components.cdv.core.dao.ValidationDao;
-import ru.i_novus.components.cdv.core.dao.ValidationEntity;
+import ru.i_novus.components.cdv.core.api.model.Validation;
+import ru.i_novus.components.cdv.core.api.service.ValidationRepository;
+import ru.i_novus.components.cdv.core.impl.dao.ValidationDao;
+import ru.i_novus.components.cdv.core.impl.dao.ValidationEntity;
+import ru.i_novus.components.cdv.inmemory.json.impl.util.JsonPathUtils;
+import ru.i_novus.components.cdv.inmemory.json.impl.model.SpelValidation;
+import ru.i_novus.components.cdv.inmemory.json.impl.model.ValidationResult;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -39,16 +42,6 @@ public class ValidationRepositoryImpl implements ValidationRepository<String, Va
                 .filter(this::allowValidation)
                 .map(entity -> createValidation(context, entity))
                 .collect(Collectors.toList());
-    }
-
-    @Override
-    public Validation<String, ValidationResult> getValidation(String json, ValidationEntity entity) {
-
-        if (!allowValidation(entity))
-            return null;
-
-        EvaluationContext context = createEvaluationContext(json);
-        return createValidation(context, entity);
     }
 
     private EvaluationContext createEvaluationContext(String json) {

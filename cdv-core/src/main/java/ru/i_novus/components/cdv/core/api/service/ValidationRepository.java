@@ -1,6 +1,6 @@
-package ru.i_novus.components.cdv.core.api;
+package ru.i_novus.components.cdv.core.api.service;
 
-import ru.i_novus.components.cdv.core.dao.ValidationEntity;
+import ru.i_novus.components.cdv.core.api.model.Validation;
 
 import java.util.List;
 
@@ -13,6 +13,4 @@ import java.util.List;
 public interface ValidationRepository<V, R> {
 
     List<Validation<V, R>> getValidations(V v);
-
-    Validation<V, R> getValidation(V v, ValidationEntity entity);
 }

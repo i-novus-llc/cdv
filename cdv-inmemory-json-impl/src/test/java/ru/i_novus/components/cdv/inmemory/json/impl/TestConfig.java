@@ -6,11 +6,14 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import ru.i_novus.components.cdv.core.ValidationServiceImpl;
-import ru.i_novus.components.cdv.core.api.ValidationRepository;
-import ru.i_novus.components.cdv.core.api.ValidationService;
-import ru.i_novus.components.cdv.core.dao.JdbcTemplateValidationDao;
-import ru.i_novus.components.cdv.core.dao.ValidationDao;
+import ru.i_novus.components.cdv.core.impl.service.ValidationServiceImpl;
+import ru.i_novus.components.cdv.core.api.service.ValidationRepository;
+import ru.i_novus.components.cdv.core.api.service.ValidationService;
+import ru.i_novus.components.cdv.core.impl.dao.JdbcTemplateValidationDao;
+import ru.i_novus.components.cdv.core.impl.dao.ValidationDao;
+import ru.i_novus.components.cdv.inmemory.json.impl.model.ValidationResult;
+import ru.i_novus.components.cdv.inmemory.json.impl.service.JsonParser;
+import ru.i_novus.components.cdv.inmemory.json.impl.service.ValidationRepositoryImpl;
 
 import javax.sql.DataSource;
 

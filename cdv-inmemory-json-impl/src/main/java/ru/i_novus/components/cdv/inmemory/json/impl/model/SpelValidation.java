@@ -1,11 +1,11 @@
-package ru.i_novus.components.cdv.inmemory.json.impl;
+package ru.i_novus.components.cdv.inmemory.json.impl.model;
 
 import org.springframework.expression.*;
 import org.springframework.expression.spel.SpelEvaluationException;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
-import ru.i_novus.components.cdv.core.StatusEnum;
-import ru.i_novus.components.cdv.core.api.Validation;
-import ru.i_novus.components.cdv.core.api.ValidationException;
+import ru.i_novus.components.cdv.core.api.model.StatusEnum;
+import ru.i_novus.components.cdv.core.api.model.Validation;
+import ru.i_novus.components.cdv.core.api.model.ValidationException;
 
 /**
  * Валидация с использованием SPEL.

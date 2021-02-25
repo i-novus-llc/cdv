@@ -1,4 +1,4 @@
-package ru.i_novus.components.cdv.inmemory.json.impl;
+package ru.i_novus.components.cdv.inmemory.json.impl.service;
 
 import org.springframework.expression.EvaluationContext;
 

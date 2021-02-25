@@ -1,6 +1,6 @@
-package ru.i_novus.components.cdv.inmemory.json.impl;
+package ru.i_novus.components.cdv.inmemory.json.impl.model;
 
-import ru.i_novus.components.cdv.core.StatusEnum;
+import ru.i_novus.components.cdv.core.api.model.StatusEnum;
 
 import java.util.Objects;
 

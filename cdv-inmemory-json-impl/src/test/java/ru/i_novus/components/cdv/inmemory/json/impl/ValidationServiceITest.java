@@ -7,7 +7,8 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import ru.i_novus.components.cdv.core.api.ValidationService;
+import ru.i_novus.components.cdv.core.api.service.ValidationService;
+import ru.i_novus.components.cdv.inmemory.json.impl.model.ValidationResult;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

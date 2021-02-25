@@ -1,4 +1,4 @@
-package ru.i_novus.components.cdv.core.dao;
+package ru.i_novus.components.cdv.core.impl.dao;
 
 import java.util.List;
 
