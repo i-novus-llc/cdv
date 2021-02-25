@@ -1,12 +1,12 @@
 package ru.i_novus.components.cdv.inmemory.json.impl;
 
-import org.springframework.expression.spel.support.StandardEvaluationContext;
+import org.springframework.expression.EvaluationContext;
 
 /**
- * Внешняя инициализация контекста SPEL
+ * Внешняя инициализация контекста SPEL.
  */
 public interface EvaluationContextInitializer {
 
-    void init(StandardEvaluationContext evaluationContext);
+    void init(EvaluationContext evaluationContext);
 
 }
