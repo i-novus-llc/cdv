@@ -13,7 +13,7 @@ import ru.i_novus.components.cdv.core.dao.ValidationDao;
 import ru.i_novus.components.cdv.core.service.ValidationServiceImpl;
 import ru.i_novus.components.cdv.inmemory.json.impl.model.ValidationResult;
 import ru.i_novus.components.cdv.inmemory.json.impl.service.JsonParser;
-import ru.i_novus.components.cdv.inmemory.json.impl.service.ValidationRepositoryImpl;
+import ru.i_novus.components.cdv.inmemory.json.impl.service.SpelValidationRepository;
 
 import javax.sql.DataSource;
 
@@ -36,7 +36,7 @@ public class TestConfig {
 
     @Bean
     public ValidationRepository<String, ValidationResult> validationRepository() {
-        return new ValidationRepositoryImpl(validationDao());
+        return new SpelValidationRepository(validationDao());
     }
 
     @Bean

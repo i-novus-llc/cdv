@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 
 import static java.util.Objects.requireNonNull;
 
-public class ValidationRepositoryImpl implements ValidationRepository<String, ValidationResult> {
+public class SpelValidationRepository implements ValidationRepository<String, ValidationResult> {
 
     private static final String ALLOWED_LANGUAGE = "SPEL";
 
@@ -22,11 +22,11 @@ public class ValidationRepositoryImpl implements ValidationRepository<String, Va
 
     private final EvaluationContextInitializer evaluationContextInitializer;
 
-    public ValidationRepositoryImpl(ValidationDao validationDao) {
+    public SpelValidationRepository(ValidationDao validationDao) {
         this(validationDao, null);
     }
 
-    public ValidationRepositoryImpl(ValidationDao validationDao, EvaluationContextInitializer evaluationContextInitializer) {
+    public SpelValidationRepository(ValidationDao validationDao, EvaluationContextInitializer evaluationContextInitializer) {
         this.validationDao = validationDao;
         this.evaluationContextInitializer = evaluationContextInitializer;
     }
