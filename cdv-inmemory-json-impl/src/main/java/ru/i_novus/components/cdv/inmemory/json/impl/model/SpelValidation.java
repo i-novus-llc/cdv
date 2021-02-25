@@ -8,7 +8,7 @@ import ru.i_novus.components.cdv.core.api.model.Validation;
 import ru.i_novus.components.cdv.core.api.model.ValidationException;
 
 /**
- * Валидация с использованием SPEL.
+ * Валидация с использованием SpEL.
  */
 public class SpelValidation implements Validation<String, ValidationResult> {
 

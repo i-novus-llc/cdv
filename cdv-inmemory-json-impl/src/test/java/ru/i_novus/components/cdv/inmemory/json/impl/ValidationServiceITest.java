@@ -23,7 +23,7 @@ public class ValidationServiceITest {
     private String jsonData;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         jsonData = new BufferedReader(
                 new InputStreamReader(this.getClass().getResourceAsStream("/test.json"), StandardCharsets.UTF_8))
                 .lines().collect(Collectors.joining("\n"));
@@ -32,15 +32,14 @@ public class ValidationServiceITest {
     @Autowired
     ValidationService<String, ValidationResult> validationService;
 
-
-    @Test
     /**
      * see src/test/resources/db/changelog/test_data.xml
      */
-    public void testValidationService() {
-        List<ValidationResult> results = validationService.validate(jsonData);
-        Assert.assertTrue(results.size() == 1);
-        Assert.assertEquals("TEST1", results.get(0).getCode());
+    @Test
+    public void testValidate() {
 
+        List<ValidationResult> results = validationService.validate(jsonData);
+        Assert.assertEquals(1, results.size());
+        Assert.assertEquals("TEST1", results.get(0).getCode());
     }
 }
