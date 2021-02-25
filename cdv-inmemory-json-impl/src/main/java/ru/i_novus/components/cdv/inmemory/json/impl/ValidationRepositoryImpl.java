@@ -41,6 +41,16 @@ public class ValidationRepositoryImpl implements ValidationRepository<String, Va
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public Validation<String, ValidationResult> getValidation(String json, ValidationEntity entity) {
+
+        if (!allowValidation(entity))
+            return null;
+
+        EvaluationContext context = createEvaluationContext(json);
+        return createValidation(context, entity);
+    }
+
     private EvaluationContext createEvaluationContext(String json) {
 
         StandardEvaluationContext context = new StandardEvaluationContext();
