@@ -15,7 +15,7 @@ import static java.util.Objects.requireNonNull;
 
 public class ValidationRepositoryImpl implements ValidationRepository<String, ValidationResult> {
 
-    private static final String LANGUAGE_SPEL = "SPEL";
+    private static final String ALLOWED_LANGUAGE = "SPEL";
 
     private final ValidationDao validationDao;
 
@@ -36,7 +36,7 @@ public class ValidationRepositoryImpl implements ValidationRepository<String, Va
         EvaluationContext context = createEvaluationContext(json);
 
         return validationDao.findValidationEntityList().stream()
-                .filter(this::filterValidation)
+                .filter(this::allowValidation)
                 .map(entity -> createValidation(context, entity))
                 .collect(Collectors.toList());
     }
@@ -56,9 +56,9 @@ public class ValidationRepositoryImpl implements ValidationRepository<String, Va
         return context;
     }
 
-    private boolean filterValidation(ValidationEntity validationEntity) {
+    private boolean allowValidation(ValidationEntity validationEntity) {
 
-        return LANGUAGE_SPEL.equals(validationEntity.getLanguage());
+        return ALLOWED_LANGUAGE.equals(validationEntity.getLanguage());
     }
 
     private SpelValidation createValidation(EvaluationContext context, ValidationEntity validationEntity) {
