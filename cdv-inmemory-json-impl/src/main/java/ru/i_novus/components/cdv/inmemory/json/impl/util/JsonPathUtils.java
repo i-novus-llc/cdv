@@ -1,4 +1,4 @@
-package ru.i_novus.components.cdv.inmemory.json.impl;
+package ru.i_novus.components.cdv.inmemory.json.impl.util;
 
 import com.jayway.jsonpath.*;
 
@@ -9,6 +9,10 @@ import java.io.InputStream;
 import java.net.URL;
 
 public class JsonPathUtils {
+
+    private JsonPathUtils() {
+        // Nothing to do.
+    }
 
     public static <T> T evaluate(Object json, String jsonPath, Predicate... predicates) throws IOException {
         Configuration configuration = Configuration.defaultConfiguration();
@@ -34,8 +38,4 @@ public class JsonPathUtils {
         }
 
     }
-
-    private JsonPathUtils() {
-    }
-
 }

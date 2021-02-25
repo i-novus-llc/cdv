@@ -9,11 +9,11 @@
             insert into cdv.validation (code, lang, attr, expr, msg)
             values ('TEST1', 'SPEL', 'store.id', '#jsonPath(#data, ''$.store.id'')>''''', 'Поле "store.id" обязательно для заполнения');
 
-        <!-- must ignore-->
+            <!-- must ignore: unknown language -->
             insert into cdv.validation (code, lang, attr, expr, msg)
             values ('TEST2', 'GROOVY', 'store.code', 'return true', 'Поле "store.code" обязательно для заполнения');
 
-            <!-- must ignore -->
+            <!-- must ignore: disabled = true -->
             insert into cdv.validation (code, lang, attr, expr, msg, disabled)
             values ('TEST1', 'SPEL', 'store.name', '#jsonPath(#data, ''$.store.name'')>''''', 'Поле "store.name" обязательно для заполнения', true);
 

@@ -1,4 +1,4 @@
-package ru.i_novus.components.cdv.inmemory.json.impl;
+package ru.i_novus.components.cdv.inmemory.json.impl.service;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -7,7 +7,9 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import ru.i_novus.components.cdv.core.api.ValidationService;
+import ru.i_novus.components.cdv.core.service.ValidationService;
+import ru.i_novus.components.cdv.inmemory.json.impl.TestConfig;
+import ru.i_novus.components.cdv.inmemory.json.impl.model.ValidationResult;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -22,7 +24,7 @@ public class ValidationServiceITest {
     private String jsonData;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         jsonData = new BufferedReader(
                 new InputStreamReader(this.getClass().getResourceAsStream("/test.json"), StandardCharsets.UTF_8))
                 .lines().collect(Collectors.joining("\n"));
@@ -31,15 +33,14 @@ public class ValidationServiceITest {
     @Autowired
     ValidationService<String, ValidationResult> validationService;
 
-
-    @Test
     /**
      * see src/test/resources/db/changelog/test_data.xml
      */
-    public void testValidationService() {
-        List<ValidationResult> results = validationService.validate(jsonData);
-        Assert.assertTrue(results.size() == 1);
-        Assert.assertEquals("TEST1", results.get(0).getCode());
+    @Test
+    public void testValidate() {
 
+        List<ValidationResult> results = validationService.validate(jsonData);
+        Assert.assertEquals(1, results.size());
+        Assert.assertEquals("TEST1", results.get(0).getCode());
     }
 }
