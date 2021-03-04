@@ -9,4 +9,6 @@ package ru.i_novus.components.cdv.core.service;
 public interface Validation<V, R> {
 
     R validate(V v);
+
+    String getCode();
 }

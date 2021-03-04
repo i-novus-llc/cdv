@@ -1,5 +1,7 @@
 package ru.i_novus.components.cdv.core.service;
 
+import ru.i_novus.components.cdv.core.model.ValidationException;
+
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -28,7 +30,13 @@ public class ValidationServiceImpl<I, V, R>  implements ValidationService<I, R> 
                 .flatMap(validation -> validation.getValidations(parseResult).stream())
                 .collect(Collectors.toList());
         return validations.stream()
-                .map(validation -> validation.validate(parseResult))
+                .map(validation -> {
+                    try {
+                        return validation.validate(parseResult);
+                    } catch (Exception e) {
+                        throw new ValidationException(validation, e);
+                    }
+                })
                 .collect(Collectors.toList());
     }
 }
