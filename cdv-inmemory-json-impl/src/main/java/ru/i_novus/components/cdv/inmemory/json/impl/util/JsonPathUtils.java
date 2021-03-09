@@ -16,7 +16,7 @@ public class JsonPathUtils {
 
     public static <T> T evaluate(Object json, String jsonPath, Predicate... predicates) throws IOException {
         Configuration configuration = Configuration.defaultConfiguration();
-        configuration = configuration.addOptions(Option.SUPPRESS_EXCEPTIONS);
+        configuration = configuration.addOptions(Option.SUPPRESS_EXCEPTIONS).addOptions(Option.DEFAULT_PATH_LEAF_TO_NULL);
         ParseContext context = JsonPath.using(configuration);
         if (json instanceof String) {
             return context.parse((String) json).read(jsonPath, predicates);
