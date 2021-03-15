@@ -24,7 +24,8 @@
         <sql>
             insert into cdv.validation (code, lang, attr, expr, msg)
             values ('TEST1', 'GROOVY', 'store.id', $$
-def jsonSlurper = new groovy.json.JsonSlurper()
+import groovy.json.JsonSlurper
+def jsonSlurper = new JsonSlurper()
 def data = jsonSlurper.parseText("$data")
 return (data?.store?.id != null)
 $$,
