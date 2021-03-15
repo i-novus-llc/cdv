@@ -22,17 +22,20 @@ public class SpelValidation implements Validation<String, ValidationResult> {
 
     private final String code;
 
+    private final String language;
+
     private final String description;
 
     private final StandardEvaluationContext context;
 
     private final ExpressionParser parser;
 
-    public SpelValidation(String expression, String field, String code, String description,
+    public SpelValidation(String expression, String field, String code, String language, String description,
                           StandardEvaluationContext context){
         this.expression = expression;
         this.field = field;
         this.code = code;
+        this.language = language;
         this.description = description;
         this.context = context;
 
@@ -46,7 +49,7 @@ public class SpelValidation implements Validation<String, ValidationResult> {
         Boolean value = parsed.getValue(context, Boolean.class);
         StatusEnum status = Boolean.TRUE.equals(value) ? StatusEnum.SUCCESS : StatusEnum.ERROR;
 
-        return new ValidationResult(field, code, description, status);
+        return new ValidationResult(field, code, language, description, status);
     }
 
     @Override

@@ -19,6 +19,8 @@ import static java.util.Objects.requireNonNull;
  */
 public class SpelValidationRepository implements ValidationRepository<String, ValidationResult> {
 
+    private static final String ALLOWED_LANGUAGE = "SPEL";
+
     private final ValidationDao validationDao;
 
     private final EvaluationContextInitializer evaluationContextInitializer;
@@ -31,11 +33,6 @@ public class SpelValidationRepository implements ValidationRepository<String, Va
                                     EvaluationContextInitializer evaluationContextInitializer) {
         this.validationDao = validationDao;
         this.evaluationContextInitializer = evaluationContextInitializer;
-    }
-
-    @Override
-    public String getAllowedLanguage() {
-        return "SPEL";
     }
 
     @Override
@@ -66,7 +63,7 @@ public class SpelValidationRepository implements ValidationRepository<String, Va
 
     private boolean allowValidation(ValidationEntity validationEntity) {
 
-        return getAllowedLanguage().equals(validationEntity.getLanguage());
+        return ALLOWED_LANGUAGE.equals(validationEntity.getLanguage());
     }
 
     private SpelValidation createValidation(StandardEvaluationContext context, ValidationEntity validationEntity) {
@@ -74,6 +71,7 @@ public class SpelValidationRepository implements ValidationRepository<String, Va
                 validationEntity.getExpression(),
                 validationEntity.getAttribute(),
                 validationEntity.getCode(),
+                validationEntity.getLanguage(),
                 validationEntity.getMessage(),
                 context);
     }

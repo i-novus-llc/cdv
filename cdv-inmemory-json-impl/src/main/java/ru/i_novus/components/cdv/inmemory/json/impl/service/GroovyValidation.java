@@ -18,17 +18,20 @@ public class GroovyValidation implements Validation<String, ValidationResult> {
 
     private final String code;
 
+    private final String language;
+
     private final String description;
 
     private final Binding context;
 
     private final GroovyShell shell;
 
-    public GroovyValidation(String expression, String field, String code, String description,
+    public GroovyValidation(String expression, String field, String code, String language, String description,
                             Binding context){
         this.expression = expression;
         this.field = field;
         this.code = code;
+        this.language = language;
         this.description = description;
         this.context = context;
 
@@ -43,7 +46,7 @@ public class GroovyValidation implements Validation<String, ValidationResult> {
         Object value = parsed.run();
         StatusEnum status = Boolean.TRUE.equals(value) ? StatusEnum.SUCCESS : StatusEnum.ERROR;
 
-        return new ValidationResult(field, code, description, status);
+        return new ValidationResult(field, code, language, description, status);
     }
 
     @Override

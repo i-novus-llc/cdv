@@ -28,11 +28,6 @@ public class ValidationServiceTest {
         ValidationRepository someValidationRepository = new ValidationRepository() {
 
             @Override
-            public String getAllowedLanguage() {
-                return "some language";
-            }
-
-            @Override
             public List<Validation> getValidations(Object o) {
                 return Collections.singletonList(someValidation);
             }

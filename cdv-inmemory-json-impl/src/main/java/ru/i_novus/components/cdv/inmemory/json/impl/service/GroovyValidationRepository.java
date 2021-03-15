@@ -19,6 +19,8 @@ import java.util.stream.Collectors;
  */
 public class GroovyValidationRepository implements ValidationRepository<String, ValidationResult> {
 
+    private static final String ALLOWED_LANGUAGE = "GROOVY";
+
     private static final ObjectMapper jsonMapper = new ObjectMapper();
 
     private final ValidationDao validationDao;
@@ -36,18 +38,13 @@ public class GroovyValidationRepository implements ValidationRepository<String, 
     }
 
     @Override
-    public String getAllowedLanguage() {
-        return "GROOVY";
-    }
-
-    @Override
     public List<Validation<String, ValidationResult>> getValidations(String json) {
 
         Binding context = createEvaluationContext(json);
 
         return validationDao.findValidationEntityList().stream()
                 .filter(this::allowValidation)
-                .map(entity -> createValidation(context, entity))
+                .map(entity -> createValidation(context, config, entity))
                 .collect(Collectors.toList());
     }
 
@@ -78,7 +75,7 @@ public class GroovyValidationRepository implements ValidationRepository<String, 
 
     private boolean allowValidation(ValidationEntity validationEntity) {
 
-        return getAllowedLanguage().equals(validationEntity.getLanguage());
+        return ALLOWED_LANGUAGE.equals(validationEntity.getLanguage());
     }
 
     private GroovyValidation createValidation(Binding context, ValidationEntity validationEntity) {
@@ -86,6 +83,7 @@ public class GroovyValidationRepository implements ValidationRepository<String, 
                 validationEntity.getExpression(),
                 validationEntity.getAttribute(),
                 validationEntity.getCode(),
+                validationEntity.getLanguage(),
                 validationEntity.getMessage(),
                 context);
     }
