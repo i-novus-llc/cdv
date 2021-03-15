@@ -19,15 +19,6 @@
 
 ## Проверки Groovy
 1. В качестве lang указать `GROOVY`.
-2. Проверяемый json в виде строки доступен как `"$data"`.   
+2. Проверяемый json в виде JsonNode доступен как `data`.   
 3. Для разбора строки в json можно использовать JsonSlurper.
 4. Для кастомной инициализации контекста Groovy надо реализовать GroovyContextInitializer и передать его в конструкторе GroovyValidationRepository.
-
-### Разбор строки в json
-Пример:
-```groovy
-import groovy.json.JsonSlurper
-def jsonSlurper = new JsonSlurper()
-def data = jsonSlurper.parseText("$data")
-return (data?.store?.id != null)
-```
