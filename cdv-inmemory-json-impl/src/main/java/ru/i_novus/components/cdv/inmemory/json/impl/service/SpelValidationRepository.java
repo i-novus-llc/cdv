@@ -2,10 +2,10 @@ package ru.i_novus.components.cdv.inmemory.json.impl.service;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
-import ru.i_novus.components.cdv.core.service.Validation;
-import ru.i_novus.components.cdv.core.service.ValidationRepository;
 import ru.i_novus.components.cdv.core.dao.ValidationDao;
 import ru.i_novus.components.cdv.core.dao.ValidationEntity;
+import ru.i_novus.components.cdv.core.service.Validation;
+import ru.i_novus.components.cdv.core.service.ValidationRepository;
 import ru.i_novus.components.cdv.inmemory.json.impl.model.ValidationResult;
 import ru.i_novus.components.cdv.inmemory.json.impl.util.JsonPathUtils;
 
@@ -16,8 +16,6 @@ import static java.util.Objects.requireNonNull;
 
 public class SpelValidationRepository implements ValidationRepository<String, ValidationResult> {
 
-    private static final String ALLOWED_LANGUAGE = "SPEL";
-
     private final ValidationDao validationDao;
 
     private final EvaluationContextInitializer evaluationContextInitializer;
@@ -26,9 +24,15 @@ public class SpelValidationRepository implements ValidationRepository<String, Va
         this(validationDao, null);
     }
 
-    public SpelValidationRepository(ValidationDao validationDao, EvaluationContextInitializer evaluationContextInitializer) {
+    public SpelValidationRepository(ValidationDao validationDao,
+                                    EvaluationContextInitializer evaluationContextInitializer) {
         this.validationDao = validationDao;
         this.evaluationContextInitializer = evaluationContextInitializer;
+    }
+
+    @Override
+    public String getAllowedLanguage() {
+        return "SPEL";
     }
 
     @Override
@@ -50,7 +54,7 @@ public class SpelValidationRepository implements ValidationRepository<String, Va
                 requireNonNull(BeanUtils.resolveSignature("evaluate", JsonPathUtils.class))
         );
 
-        if(evaluationContextInitializer != null) {
+        if (evaluationContextInitializer != null) {
             evaluationContextInitializer.init(context);
         }
 
@@ -59,7 +63,7 @@ public class SpelValidationRepository implements ValidationRepository<String, Va
 
     private boolean allowValidation(ValidationEntity validationEntity) {
 
-        return ALLOWED_LANGUAGE.equals(validationEntity.getLanguage());
+        return getAllowedLanguage().equals(validationEntity.getLanguage());
     }
 
     private SpelValidation createValidation(StandardEvaluationContext context, ValidationEntity validationEntity) {

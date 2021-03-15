@@ -10,5 +10,7 @@ import java.util.List;
  */
 public interface ValidationRepository<V, R> {
 
+    String getAllowedLanguage();
+
     List<Validation<V, R>> getValidations(V v);
 }
