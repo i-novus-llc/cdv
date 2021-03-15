@@ -14,6 +14,9 @@ import java.util.stream.Collectors;
 
 import static java.util.Objects.requireNonNull;
 
+/**
+ * Репозиторий валидации с использованием SpEL.
+ */
 public class SpelValidationRepository implements ValidationRepository<String, ValidationResult> {
 
     private final ValidationDao validationDao;
