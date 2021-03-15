@@ -6,12 +6,13 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import ru.i_novus.components.cdv.core.service.ValidationRepository;
-import ru.i_novus.components.cdv.core.service.ValidationService;
 import ru.i_novus.components.cdv.core.dao.JdbcTemplateValidationDao;
 import ru.i_novus.components.cdv.core.dao.ValidationDao;
+import ru.i_novus.components.cdv.core.service.ValidationRepository;
+import ru.i_novus.components.cdv.core.service.ValidationService;
 import ru.i_novus.components.cdv.core.service.ValidationServiceImpl;
 import ru.i_novus.components.cdv.inmemory.json.impl.model.ValidationResult;
+import ru.i_novus.components.cdv.inmemory.json.impl.service.GroovyValidationRepository;
 import ru.i_novus.components.cdv.inmemory.json.impl.service.JsonParser;
 import ru.i_novus.components.cdv.inmemory.json.impl.service.SpelValidationRepository;
 
@@ -30,13 +31,23 @@ public class TestConfig {
     }
 
     @Bean
-    public ValidationService<String, ValidationResult> validationService() {
-       return new ValidationServiceImpl<>(new JsonParser(), validationRepository());
+    public ValidationService<String, ValidationResult> spelValidationService() {
+        return new ValidationServiceImpl<>(new JsonParser(), spelValidationRepository());
     }
 
     @Bean
-    public ValidationRepository<String, ValidationResult> validationRepository() {
+    public ValidationRepository<String, ValidationResult> spelValidationRepository() {
         return new SpelValidationRepository(validationDao());
+    }
+
+    @Bean
+    public ValidationService<String, ValidationResult> groovyValidationService() {
+        return new ValidationServiceImpl<>(new JsonParser(), groovyValidationRepository());
+    }
+
+    @Bean
+    public ValidationRepository<String, ValidationResult> groovyValidationRepository() {
+        return new GroovyValidationRepository(validationDao());
     }
 
     @Bean

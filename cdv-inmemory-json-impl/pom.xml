@@ -20,6 +20,7 @@
             <artifactId>cdv-core</artifactId>
             <version>${project.version}</version>
         </dependency>
+
         <dependency>
             <groupId>com.jayway.jsonpath</groupId>
             <artifactId>json-path</artifactId>
@@ -30,6 +31,14 @@
             <artifactId>spring-expression</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy-all</artifactId>
+            <version>3.0.7</version>
+            <type>pom</type>
+        </dependency>
+
+        <!-- Test -->
         <dependency>
             <groupId>ru.i-novus.components</groupId>
             <artifactId>liquibase-core</artifactId>
@@ -58,6 +67,8 @@
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
         </dependency>
+        <!-- / Test -->
+
     </dependencies>
 
 </project>
