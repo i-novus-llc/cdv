@@ -1,6 +1,8 @@
 package ru.i_novus.components.cdv.inmemory.json.impl.service;
 
 import org.springframework.beans.BeanUtils;
+import org.springframework.expression.ExpressionParser;
+import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
 import ru.i_novus.components.cdv.core.dao.ValidationDao;
 import ru.i_novus.components.cdv.core.dao.ValidationEntity;
@@ -38,11 +40,12 @@ public class SpelValidationRepository implements ValidationRepository<String, Va
     @Override
     public List<Validation<String, ValidationResult>> getValidations(String json) {
 
+        ExpressionParser parser = new SpelExpressionParser();
         StandardEvaluationContext context = createEvaluationContext(json);
 
         return validationDao.findValidationEntityList().stream()
                 .filter(this::allowValidation)
-                .map(entity -> createValidation(context, entity))
+                .map(entity -> createValidation(parser, context, entity))
                 .collect(Collectors.toList());
     }
 
@@ -66,13 +69,15 @@ public class SpelValidationRepository implements ValidationRepository<String, Va
         return ALLOWED_LANGUAGE.equals(validationEntity.getLanguage());
     }
 
-    private SpelValidation createValidation(StandardEvaluationContext context, ValidationEntity validationEntity) {
+    private SpelValidation createValidation(ExpressionParser parser, StandardEvaluationContext context,
+                                            ValidationEntity validationEntity) {
         return new SpelValidation(
                 validationEntity.getExpression(),
                 validationEntity.getAttribute(),
                 validationEntity.getCode(),
                 validationEntity.getLanguage(),
                 validationEntity.getMessage(),
+                parser,
                 context);
     }
 }

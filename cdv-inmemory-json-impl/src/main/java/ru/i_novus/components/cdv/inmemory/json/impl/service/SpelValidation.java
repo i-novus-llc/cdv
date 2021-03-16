@@ -2,12 +2,8 @@ package ru.i_novus.components.cdv.inmemory.json.impl.service;
 
 import org.springframework.expression.Expression;
 import org.springframework.expression.ExpressionParser;
-import org.springframework.expression.ParseException;
-import org.springframework.expression.spel.SpelEvaluationException;
-import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
 import ru.i_novus.components.cdv.core.model.StatusEnum;
-import ru.i_novus.components.cdv.core.model.ValidationException;
 import ru.i_novus.components.cdv.core.service.Validation;
 import ru.i_novus.components.cdv.inmemory.json.impl.model.ValidationResult;
 
@@ -26,20 +22,20 @@ public class SpelValidation implements Validation<String, ValidationResult> {
 
     private final String description;
 
-    private final StandardEvaluationContext context;
-
     private final ExpressionParser parser;
 
+    private final StandardEvaluationContext context;
+
     public SpelValidation(String expression, String field, String code, String language, String description,
-                          StandardEvaluationContext context){
+                          ExpressionParser parser, StandardEvaluationContext context){
         this.expression = expression;
         this.field = field;
         this.code = code;
         this.language = language;
         this.description = description;
-        this.context = context;
 
-        parser = new SpelExpressionParser();
+        this.parser = parser;
+        this.context = context;
     }
 
     @Override
