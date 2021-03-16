@@ -86,7 +86,6 @@ public class GroovyValidationRepository implements ValidationRepository<String, 
                 validationEntity.getExpression(),
                 validationEntity.getAttribute(),
                 validationEntity.getCode(),
-                validationEntity.getLanguage(),
                 validationEntity.getMessage(),
                 shell,
                 context);

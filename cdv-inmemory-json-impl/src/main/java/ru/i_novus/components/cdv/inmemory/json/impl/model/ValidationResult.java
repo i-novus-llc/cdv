@@ -13,17 +13,14 @@ public class ValidationResult {
 
     private final String code;
 
-    private final String language;
-
     private final String message;
 
     private final StatusEnum status;
 
-    public ValidationResult(String field, String code, String language,
+    public ValidationResult(String field, String code,
                             String message, StatusEnum status) {
         this.field = field;
         this.code = code;
-        this.language = language;
 
         this.message = message;
         this.status = status;
@@ -37,9 +34,6 @@ public class ValidationResult {
         return code;
     }
 
-    public String getLanguage() {
-        return language;
-    }
 
     public String getMessage() {
         return message;
@@ -57,14 +51,13 @@ public class ValidationResult {
         ValidationResult that = (ValidationResult) o;
         return Objects.equals(field, that.field) &&
                 Objects.equals(code, that.code) &&
-                Objects.equals(language, that.language) &&
                 Objects.equals(message, that.message) &&
                 Objects.equals(status, that.status);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(field, code, language, message, status);
+        return Objects.hash(field, code, message, status);
     }
 
     @Override
@@ -72,7 +65,6 @@ public class ValidationResult {
         return "ValidationResult{" +
                 (field != null ? "field='" + field + '\'' : "") +
                 (code != null ? ", code='" + code + '\'' : "") +
-                (language != null ? ", language='" + language + '\'' : "") +
                 (message != null ? ", message='" + message + '\'' : "") +
                 ", status=" + status +
                 '}';
