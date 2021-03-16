@@ -27,15 +27,15 @@ public class GroovyValidation implements Validation<String, ValidationResult> {
     private final GroovyShell shell;
 
     public GroovyValidation(String expression, String field, String code, String language, String description,
-                            Binding context){
+                            GroovyShell shell, Binding context) {
         this.expression = expression;
         this.field = field;
         this.code = code;
         this.language = language;
         this.description = description;
-        this.context = context;
 
-        shell = new GroovyShell();
+        this.shell = shell;
+        this.context = context;
     }
 
     @Override

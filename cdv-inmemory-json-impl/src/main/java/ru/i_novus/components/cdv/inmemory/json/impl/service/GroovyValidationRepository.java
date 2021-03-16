@@ -3,6 +3,7 @@ package ru.i_novus.components.cdv.inmemory.json.impl.service;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import groovy.lang.Binding;
+import groovy.lang.GroovyShell;
 import org.springframework.util.StringUtils;
 import ru.i_novus.components.cdv.core.dao.ValidationDao;
 import ru.i_novus.components.cdv.core.dao.ValidationEntity;
@@ -40,11 +41,12 @@ public class GroovyValidationRepository implements ValidationRepository<String, 
     @Override
     public List<Validation<String, ValidationResult>> getValidations(String json) {
 
+        GroovyShell shell = new GroovyShell();
         Binding context = createEvaluationContext(json);
 
         return validationDao.findValidationEntityList().stream()
                 .filter(this::allowValidation)
-                .map(entity -> createValidation(context, entity))
+                .map(entity -> createValidation(shell, context, entity))
                 .collect(Collectors.toList());
     }
 
@@ -78,13 +80,15 @@ public class GroovyValidationRepository implements ValidationRepository<String, 
         return ALLOWED_LANGUAGE.equals(validationEntity.getLanguage());
     }
 
-    private GroovyValidation createValidation(Binding context, ValidationEntity validationEntity) {
+    private GroovyValidation createValidation(GroovyShell shell, Binding context,
+                                              ValidationEntity validationEntity) {
         return new GroovyValidation(
                 validationEntity.getExpression(),
                 validationEntity.getAttribute(),
                 validationEntity.getCode(),
                 validationEntity.getLanguage(),
                 validationEntity.getMessage(),
+                shell,
                 context);
     }
 }
