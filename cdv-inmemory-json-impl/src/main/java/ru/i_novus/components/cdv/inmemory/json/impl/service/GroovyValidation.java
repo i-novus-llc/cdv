@@ -22,9 +22,9 @@ public class GroovyValidation implements Validation<String, ValidationResult> {
 
     private final String description;
 
-    private final Binding context;
-
     private final GroovyShell shell;
+
+    private final Binding context;
 
     public GroovyValidation(String expression, String field, String code, String language, String description,
                             GroovyShell shell, Binding context) {
