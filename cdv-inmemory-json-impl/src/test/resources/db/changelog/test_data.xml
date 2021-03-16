@@ -4,18 +4,26 @@
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
 
-    <changeSet id="1.0" author="tnurdinov">
+    <changeSet id="test_spel_1.0" author="tnurdinov">
         <sql>
             insert into cdv.validation (code, lang, attr, expr, msg)
             values ('TEST1', 'SPEL', 'store.id', '#jsonPath(#data, ''$.store.id'')>''''', 'Поле "store.id" обязательно для заполнения');
 
             <!-- must ignore: unknown language -->
             insert into cdv.validation (code, lang, attr, expr, msg)
-            values ('TEST2', 'GROOVY', 'store.code', 'return true', 'Поле "store.code" обязательно для заполнения');
+            values ('TEST2', 'UNKNOWN', 'store.code', 'return true', 'Поле "store.code" обязательно для заполнения');
 
             <!-- must ignore: disabled = true -->
             insert into cdv.validation (code, lang, attr, expr, msg, disabled)
-            values ('TEST1', 'SPEL', 'store.name', '#jsonPath(#data, ''$.store.name'')>''''', 'Поле "store.name" обязательно для заполнения', true);
+            values ('TEST3', 'SPEL', 'store.name', '#jsonPath(#data, ''$.store.name'')>''''', 'Поле "store.name" обязательно для заполнения', true);
+
+        </sql>
+    </changeSet>
+
+    <changeSet id="test_groovy_1.0" author="arahmatullin">
+        <sql>
+            insert into cdv.validation (code, lang, attr, expr, msg)
+            values ('TEST1', 'GROOVY', 'store.id', 'data?.store?.id != null', 'Поле "store.id" обязательно для заполнения');
 
         </sql>
     </changeSet>

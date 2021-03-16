@@ -1,11 +1,13 @@
 package ru.i_novus.components.cdv.inmemory.json.impl.service;
 
 import org.springframework.beans.BeanUtils;
+import org.springframework.expression.ExpressionParser;
+import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
-import ru.i_novus.components.cdv.core.service.Validation;
-import ru.i_novus.components.cdv.core.service.ValidationRepository;
 import ru.i_novus.components.cdv.core.dao.ValidationDao;
 import ru.i_novus.components.cdv.core.dao.ValidationEntity;
+import ru.i_novus.components.cdv.core.service.Validation;
+import ru.i_novus.components.cdv.core.service.ValidationRepository;
 import ru.i_novus.components.cdv.inmemory.json.impl.model.ValidationResult;
 import ru.i_novus.components.cdv.inmemory.json.impl.util.JsonPathUtils;
 
@@ -14,6 +16,9 @@ import java.util.stream.Collectors;
 
 import static java.util.Objects.requireNonNull;
 
+/**
+ * Репозиторий валидации с использованием SpEL.
+ */
 public class SpelValidationRepository implements ValidationRepository<String, ValidationResult> {
 
     private static final String ALLOWED_LANGUAGE = "SPEL";
@@ -26,7 +31,8 @@ public class SpelValidationRepository implements ValidationRepository<String, Va
         this(validationDao, null);
     }
 
-    public SpelValidationRepository(ValidationDao validationDao, EvaluationContextInitializer evaluationContextInitializer) {
+    public SpelValidationRepository(ValidationDao validationDao,
+                                    EvaluationContextInitializer evaluationContextInitializer) {
         this.validationDao = validationDao;
         this.evaluationContextInitializer = evaluationContextInitializer;
     }
@@ -34,11 +40,12 @@ public class SpelValidationRepository implements ValidationRepository<String, Va
     @Override
     public List<Validation<String, ValidationResult>> getValidations(String json) {
 
+        ExpressionParser parser = new SpelExpressionParser();
         StandardEvaluationContext context = createEvaluationContext(json);
 
         return validationDao.findValidationEntityList().stream()
                 .filter(this::allowValidation)
-                .map(entity -> createValidation(context, entity))
+                .map(entity -> createValidation(parser, context, entity))
                 .collect(Collectors.toList());
     }
 
@@ -50,7 +57,7 @@ public class SpelValidationRepository implements ValidationRepository<String, Va
                 requireNonNull(BeanUtils.resolveSignature("evaluate", JsonPathUtils.class))
         );
 
-        if(evaluationContextInitializer != null) {
+        if (evaluationContextInitializer != null) {
             evaluationContextInitializer.init(context);
         }
 
@@ -62,12 +69,14 @@ public class SpelValidationRepository implements ValidationRepository<String, Va
         return ALLOWED_LANGUAGE.equals(validationEntity.getLanguage());
     }
 
-    private SpelValidation createValidation(StandardEvaluationContext context, ValidationEntity validationEntity) {
+    private SpelValidation createValidation(ExpressionParser parser, StandardEvaluationContext context,
+                                            ValidationEntity validationEntity) {
         return new SpelValidation(
                 validationEntity.getExpression(),
                 validationEntity.getAttribute(),
                 validationEntity.getCode(),
                 validationEntity.getMessage(),
+                parser,
                 context);
     }
 }

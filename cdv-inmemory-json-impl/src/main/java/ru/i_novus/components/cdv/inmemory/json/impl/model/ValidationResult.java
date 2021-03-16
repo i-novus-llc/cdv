@@ -17,9 +17,11 @@ public class ValidationResult {
 
     private final StatusEnum status;
 
-    public ValidationResult(String field, String code, String message, StatusEnum status) {
+    public ValidationResult(String field, String code,
+                            String message, StatusEnum status) {
         this.field = field;
         this.code = code;
+
         this.message = message;
         this.status = status;
     }
@@ -31,6 +33,7 @@ public class ValidationResult {
     public String getCode() {
         return code;
     }
+
 
     public String getMessage() {
         return message;
