@@ -44,7 +44,7 @@ public class GroovyValidationRepository implements ValidationRepository<String, 
 
         return validationDao.findValidationEntityList().stream()
                 .filter(this::allowValidation)
-                .map(entity -> createValidation(context, config, entity))
+                .map(entity -> createValidation(context, entity))
                 .collect(Collectors.toList());
     }
 
