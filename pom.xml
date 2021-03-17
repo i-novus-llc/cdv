@@ -14,7 +14,7 @@
 
     <groupId>ru.i-novus.components</groupId>
     <artifactId>cdv</artifactId>
-    <version>2.2-SNAPSHOT</version>
+    <version>2.3-SNAPSHOT</version>
     <packaging>pom</packaging>
 
    <properties>
