@@ -1,6 +1,5 @@
 package ru.i_novus.components.cdv.inmemory.json.impl.service;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import groovy.lang.Binding;
 import groovy.lang.GroovyShell;
@@ -13,6 +12,7 @@ import ru.i_novus.components.cdv.inmemory.json.impl.model.ValidationResult;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -62,13 +62,14 @@ public class GroovyValidationRepository implements ValidationRepository<String, 
         return context;
     }
 
-    private static JsonNode stringToData(String json) {
+    @SuppressWarnings("unchecked")
+    private static Map<String, ?> stringToData(String json) {
 
         if (StringUtils.isEmpty(json))
             return null;
 
         try {
-            return jsonMapper.readTree(json);
+            return jsonMapper.readValue(json, Map.class);
 
         } catch (IOException e) {
             throw new IllegalArgumentException(String.format("Error parsing json:%n%s", json), e);

@@ -6,7 +6,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.util.CollectionUtils;
+import ru.i_novus.components.cdv.core.model.StatusEnum;
 import ru.i_novus.components.cdv.core.service.ValidationService;
 import ru.i_novus.components.cdv.inmemory.json.impl.TestConfig;
 import ru.i_novus.components.cdv.inmemory.json.impl.model.ValidationResult;
@@ -19,10 +19,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { TestConfig.class })
+@ContextConfiguration(classes = {TestConfig.class})
 public class ValidationServiceImplTest {
 
     private String jsonData;
@@ -41,18 +41,28 @@ public class ValidationServiceImplTest {
      * see src/test/resources/db/changelog/test_data.xml
      */
     @Test
-    public void testValidate() {
+    public void testSpelValidate() {
 
-        assertFalse(CollectionUtils.isEmpty(validationServices));
-        validationServices.forEach(this::testValidate);
-    }
-
-    private void testValidate(ValidationService<String, ValidationResult> validationService) {
-
+        ValidationService<String, ValidationResult> validationService = validationServices.get(0);
+        assertNotNull(validationService);
         List<ValidationResult> results = validationService.validate(jsonData);
 
         String message = String.format("Assert for %s", validationService.getClass().getSimpleName());
         assertEquals(message, 1, results.size());
         assertEquals(message, "TEST1", results.get(0).getCode());
+    }
+
+    @Test
+    public void testGroovyValidate() {
+        ValidationService<String, ValidationResult> validationService = validationServices.get(1);
+        assertNotNull(validationService);
+        List<ValidationResult> results = validationService.validate(jsonData);
+
+        String message = String.format("Assert for %s", validationService.getClass().getSimpleName());
+        assertEquals(message, 2, results.size());
+        assertEquals(message, "TEST1", results.get(0).getCode());
+        assertEquals(StatusEnum.ERROR, results.get(0).getStatus());
+        assertEquals(message, "TEST4", results.get(1).getCode());
+        assertEquals(StatusEnum.ERROR, results.get(0).getStatus());
     }
 }
