@@ -34,8 +34,8 @@
             values ('TEST4',
                     'GROOVY',
                     'BOOK_TITLE',
-                    'data?.store?.book.any {
-                        it.title == null
+                    'data?.store?.book.every {
+                        it.title != null
                      }',
                     'Поле title" не должно быть null');
         </sql>
