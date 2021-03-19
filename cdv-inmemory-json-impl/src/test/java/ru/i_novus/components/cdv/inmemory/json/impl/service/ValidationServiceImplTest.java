@@ -62,7 +62,7 @@ public class ValidationServiceImplTest {
         assertEquals(message, "TEST1", results.get(0).getCode());
         assertEquals(StatusEnum.ERROR, results.get(0).getStatus());
         assertEquals(message, "TEST4", results.get(1).getCode());
-        assertEquals(StatusEnum.ERROR, results.get(0).getStatus());
+        assertEquals(StatusEnum.ERROR, results.get(1).getStatus());
     }
 
     @Test
@@ -77,6 +77,6 @@ public class ValidationServiceImplTest {
         assertEquals(message, "TEST1", results.get(0).getCode());
         assertEquals(StatusEnum.SUCCESS, results.get(0).getStatus());
         assertEquals(message, "TEST4", results.get(1).getCode());
-        assertEquals(StatusEnum.SUCCESS, results.get(0).getStatus());
+        assertEquals(StatusEnum.SUCCESS, results.get(1).getStatus());
     }
 }
