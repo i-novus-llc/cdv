@@ -1,5 +1,6 @@
 package ru.i_novus.components.cdv.inmemory.json.impl.service;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import groovy.lang.Binding;
 import groovy.lang.GroovyShell;
@@ -69,6 +70,7 @@ public class GroovyValidationRepository implements ValidationRepository<String, 
             return null;
 
         try {
+            jsonMapper.configure(DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS, true);
             return jsonMapper.readValue(json, Map.class);
 
         } catch (IOException e) {
