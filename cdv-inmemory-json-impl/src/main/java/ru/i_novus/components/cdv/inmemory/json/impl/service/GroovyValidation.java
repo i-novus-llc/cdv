@@ -1,6 +1,5 @@
 package ru.i_novus.components.cdv.inmemory.json.impl.service;
 
-import groovy.lang.Binding;
 import groovy.lang.GroovyShell;
 import groovy.lang.Script;
 import ru.i_novus.components.cdv.core.model.StatusEnum;
@@ -22,24 +21,18 @@ public class GroovyValidation implements Validation<String, ValidationResult> {
 
     private final GroovyShell shell;
 
-    private final Binding context;
-
-    public GroovyValidation(String expression, String field, String code, String description,
-                            GroovyShell shell, Binding context) {
+    public GroovyValidation(String expression, String field, String code, String description, GroovyShell shell) {
         this.expression = expression;
         this.field = field;
         this.code = code;
         this.description = description;
-
         this.shell = shell;
-        this.context = context;
     }
 
     @Override
     public ValidationResult validate(String json) {
 
         Script parsed = shell.parse(expression);
-        parsed.setBinding(context);
         Object value = parsed.run();
         StatusEnum status = Boolean.TRUE.equals(value) ? StatusEnum.SUCCESS : StatusEnum.ERROR;
 

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import groovy.lang.Binding;
 import groovy.lang.GroovyShell;
+import org.codehaus.groovy.control.CompilerConfiguration;
 import org.springframework.util.StringUtils;
 import ru.i_novus.components.cdv.core.dao.ValidationDao;
 import ru.i_novus.components.cdv.core.dao.ValidationEntity;
@@ -22,6 +23,7 @@ import java.util.stream.Collectors;
 public class GroovyValidationRepository implements ValidationRepository<String, ValidationResult> {
 
     private static final String ALLOWED_LANGUAGE = "GROOVY";
+    private static final String JSON_DATA_PROP_NAME = "data";
 
     private static final ObjectMapper jsonMapper = new ObjectMapper();
 
@@ -42,25 +44,26 @@ public class GroovyValidationRepository implements ValidationRepository<String, 
     @Override
     public List<Validation<String, ValidationResult>> getValidations(String json) {
 
-        GroovyShell shell = new GroovyShell();
-        Binding context = createEvaluationContext(json);
+        GroovyShell shell = createGroovyShell(json);
 
         return validationDao.findValidationEntityList().stream()
                 .filter(this::allowValidation)
-                .map(entity -> createValidation(shell, context, entity))
+                .map(entity -> createValidation(shell, entity))
                 .collect(Collectors.toList());
     }
 
-    private Binding createEvaluationContext(String json) {
+    private GroovyShell createGroovyShell(String json) {
 
-        Binding context = new Binding();
-        context.setProperty("data", stringToData(json));
+        Binding binding = new Binding();
+        binding.setProperty(JSON_DATA_PROP_NAME, stringToData(json));
+
+        CompilerConfiguration configuration = new CompilerConfiguration();
 
         if (evaluationContextInitializer != null) {
-            evaluationContextInitializer.init(context);
+            evaluationContextInitializer.init(binding, configuration);
         }
 
-        return context;
+        return new GroovyShell(binding, configuration);
     }
 
     @SuppressWarnings("unchecked")
@@ -83,14 +86,13 @@ public class GroovyValidationRepository implements ValidationRepository<String, 
         return ALLOWED_LANGUAGE.equals(validationEntity.getLanguage());
     }
 
-    private GroovyValidation createValidation(GroovyShell shell, Binding context,
+    private GroovyValidation createValidation(GroovyShell shell,
                                               ValidationEntity validationEntity) {
         return new GroovyValidation(
                 validationEntity.getExpression(),
                 validationEntity.getAttribute(),
                 validationEntity.getCode(),
                 validationEntity.getMessage(),
-                shell,
-                context);
+                shell);
     }
 }
